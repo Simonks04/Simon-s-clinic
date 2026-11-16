@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html>
+<!--
+Author: Simon Karyankal Simon
+Date: 4/16/2026
+Title: Patient intake form
+Description: It is a standard hospital patient intake form. Atleast the barebones UI of it along with some data validation.-->
+    <head>
+        <title>Simon's Clinic</title>
+    
+        <link rel="stylesheet" href="../CSS/SimonClinic.css">
+
+    </head>
+
+    <body>
+    <header>
+        <img src="../Images/cat.png" style="float:left; width: 100px; height: 100px; position: relative; left: 10px; top: 10px;" alt="cat logo" id="logo">
+        <!--This is the cat logo with some attributes defining its size and where it is positioned. I didn't want it hugging the borders so had to look up how to do have a bit of that gap. -->
+
+        <H1 style="position: relative; top: 40px;">Simon's clinic</H1> <!--Tile that users see-->
+        <br><br><br>
+         <p style="text-align: right; position: relative; right: 10px; bottom: 10px;"> Today's date: <span id="today"></span></p> <!--Date using code shown in class.-->
+    </header>
+
+    <hr>
+
+    <label for="remember-me">Remember Me:</label> 
+        <input type="checkbox" id="remember-me"name="remember-me" checked/>
+
+    <center>
+        <span id="welcome1"></span>
+        <span id="welcome2"></span>
+    </center>
+
+
+    <p id="idk"></p>
+
+    <iframe src="../Images/RickRoll.gif" title="iframe" style="width: 50%; height: 300px;"></iframe>
+        <!--"C:\Users\simon\OneDrive\Desktop\Uni\TP_MIS71\HW4\Images\RickRoll.gif"-->
+        
+        
+        <form action="ThankYou.html"> <!--On submission of this form we go to the thankyou.html file.-->
+        <center>
+        <div class="form">
+            <table>
+                <tr>
+                    <th colspan="3"><u>Patient Information:</u></th> <!--Header-->
+                </tr>
+                
+                <tr> <!--3 name rows-->
+                    <td>First Name:</td>
+                    <td>Middle Initial:</td>
+                    <td>Last Name:</td>
+                </tr>
+                <tr> <!--The row below it has the input boxes for the names-->
+                    <td><input type="text"  
+                        id="fname" 
+                        name="fname" 
+                        maxlength="30" 
+                        placeholder="First name" 
+                        title="Please enter your first name using only letters, apostrophes and dashes." 
+                        required
+                        onblur="validateFname()"></td> <!--First name-->
+                    <td><input type="text" 
+                        id="m_initial" 
+                        name="m_initial" 
+                        maxlength="1" 
+                        placeholder="M" 
+                        title="(Optional) Must be a single upper case character" 
+                        pattern="[A-Z']{0,1}"
+                        size="1"></td><!--Middle initial. Since it is only an initial size was used to reduce the size of the textbox.-->
+
+                    <td><input type="text" 
+                        id="lname"
+                        name="lname"
+                        maxlength="30" 
+                        placeholder="Last name" 
+                        title="Please enter your last name" 
+                        required
+                        onblur="validateLname()"></td> <!--Last Name-->
+                </tr>
+                <tr><!--The validation for first, middle and last name.-->
+                    <td>
+                        <span class="error" id="efname"></span> 
+                    </td> 
+                    <td>
+                        <span class="error" id="emname"></span> <!--Ended up not using this since there was only 1 requirement.-->
+                    </td>
+                    <td>
+                        <span class="error" id="elname"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Sex:</td> <!--Sex and Pronouns. Using radios-->
+                    <td><input type="radio" id="male" name="gender" value="Male">
+                        <label for="male">Male</label></td>
+                    <td><input type="radio" id="female" name="gender" value="female">
+                        <label for="female">Female</label></td>
+                    <td><input type="radio" id="other" name="gender" value="other">
+                        <label for="other">Other</label></td>
+                </tr>
+
+                <tr>
+                    
+                <tr>
+                    <td>Preferred Pronouns:</td>
+                    <td><input type="radio" id="he" name="pronouns" value="he">
+                        <label for="he">He/Him</label></td>
+                    <td><input type="radio" id="her" name="pronouns" value="her">
+                        <label for="her">She/her</label></td>
+                    <td><input type="radio" id="they" name="pronouns" value="they">
+                        <label for="they">They/Them</label></td>
+                </tr>
+
+                <tr> <!--Date of birth using a calender/date. Code from W3schools-->
+                    <td colspan="3"><label for="birthday">Date of Birth:</label>
+                        <input type="date" id="birthday" name="birthday" required
+                        onblur="validateDOB()"></td>
+                    <td><span class="error" id="edob"></span></td> 
+                </tr>
+                <tr>
+                    <td>Social Security:</td>  <!--SSN. Password so whatever is typed in can't be looked at.-->
+                    <td><input type="password" 
+                        id="ssn"
+                        name="ssn" 
+                        maxlength="11" 
+                        size="11"
+                        placeholder="123-45-6789" 
+                        title="Please enter your Social Security Number" 
+                        required
+                        onblur="validateSSN()"></td>
+                    <td><span class="error" id="essn"></span></td> 
+
+                </tr>
+
+                <tr><td colspan="10"><hr></td></tr>   <!--A horizontal line of separation-->
+
+                <tr>
+                    <th colspan="3"><u>Contact Information:</u></th> <!--Header for the user's contact info. Including mailing address.-->
+                </tr>
+                <tr>
+                    <td>Enter your address:</td><!--Address line 1-->
+                    <td><input type="text" 
+                        id="address1"
+                         name="address1" 
+                         minlength="2"
+                         maxlength="30" 
+                         placeholder="123 street" 
+                         title="Please enter your address. Must be atleast 2 letters, up to 30." 
+                         required
+                         onblur="validateAddress()"></td> 
+
+                    <td><input type="text" 
+                        id="address2"
+                         name="address2"
+                         maxlength="30" 
+                         placeholder="Address line 2" 
+                         title="Please enter rest of your address, if needed."></td> <!--Address line 2-->
+                </tr>
+                <tr><td><span class="error" id="eaddress"></span> </td> </tr>
+
+                <tr> <!--City, State, Zip code. State is a drop down box.-->
+                    <td>City:</td>
+                    <td>State:</td> 
+                    <td>Zip Code:</td>
+                </tr>
+
+                <tr>
+                    <td><input type="text" 
+                        id="city"
+                        name="city" 
+                        minlength="2"
+                        maxlength="30" 
+                        size="15"
+                        placeholder="New York" 
+                        title="Please enter your city name. Must be atleast 2 letters long." 
+                        required
+                        onblur="validateCity()"></td>  <!--City text box-->
+
+                    <td>
+                        <select id="state" class="state" title="Pick the state you are from" onblur="validateState()" onsubmit="validateState()"> <!--State drop down box-->
+                        <!--Code from: https://www.freeformatter.com/usa-state-list-html-select.html-->
+                        <!--Doing onsubmit here to make sure a state is actually picked.-->
+                            <option>Click and pick a state</option> <!--Just to display as a placeholder-->
+	                        <option value="AL">Alabama</option>
+	                        <option value="AK">Alaska</option>
+	                        <option value="AZ">Arizona</option>
+	                        <option value="AR">Arkansas</option>
+	                        <option value="CA">California</option>
+	                        <option value="CO">Colorado</option>
+	                        <option value="CT">Connecticut</option>
+	                        <option value="DE">Delaware</option>
+	                        <option value="DC">Washington DC</option> <!--Washington DC already included-->
+	                        <option value="FL">Florida</option>
+	                        <option value="GA">Georgia</option>
+	                        <option value="HI">Hawaii</option>
+	                        <option value="ID">Idaho</option>
+	                        <option value="IL">Illinois</option>
+	                        <option value="IN">Indiana</option>
+	                        <option value="IA">Iowa</option>
+	                        <option value="KS">Kansas</option>
+	                        <option value="KY">Kentucky</option>
+	                        <option value="LA">Louisiana</option>
+	                        <option value="ME">Maine</option>
+	                        <option value="MD">Maryland</option>
+	                        <option value="MA">Massachusetts</option>
+	                        <option value="MI">Michigan</option>
+	                        <option value="MN">Minnesota</option>
+	                        <option value="MS">Mississippi</option>
+	                        <option value="MO">Missouri</option>
+	                        <option value="MT">Montana</option>
+	                        <option value="NE">Nebraska</option>
+	                        <option value="NV">Nevada</option>
+	                        <option value="NH">New Hampshire</option>
+	                        <option value="NJ">New Jersey</option>
+	                        <option value="NM">New Mexico</option>
+	                        <option value="NY">New York</option>
+	                        <option value="NC">North Carolina</option>
+	                        <option value="ND">North Dakota</option>
+	                        <option value="OH">Ohio</option>
+	                        <option value="OK">Oklahoma</option>
+	                        <option value="OR">Oregon</option>
+	                        <option value="PA">Pennsylvania</option>
+                            <option value="PR">Puerto Rico</option> <!--Added in-->
+	                        <option value="RI">Rhode Island</option>
+	                        <option value="SC">South Carolina</option>
+	                        <option value="SD">South Dakota</option>
+	                        <option value="TN">Tennessee</option>
+	                        <option value="TX">Texas</option>
+	                        <option value="UT">Utah</option>
+	                        <option value="VT">Vermont</option>
+	                        <option value="VA">Virginia</option>
+	                        <option value="WA">Washington</option>
+	                        <option value="WV">West Virginia</option>
+	                        <option value="WI">Wisconsin</option>
+	                        <option value="WY">Wyoming</option>
+                        </select>
+                    </td> 
+
+                    <td><input type="text" 
+                        id="Zipcode"
+                        name="Zip code" 
+                        minlength="5"
+                        maxlength="10" 
+                        size="10"
+                        placeholder="12345" 
+                        title="Please enter your Zip Code" 
+                        required
+                        size="5"
+                        onblur="validateZIP()"></td> <!--Zip code text box. Using text not numbers-->
+                </tr>
+
+                <tr>
+                    <td><span class="error" id="ecity"></span></td>
+                    <td><span class="error" id="estate"></span></td>
+                    <td><span class="error" id="ezip"></span></td>
+                </tr>
+ 
+
+                <tr>
+                    <td colspan="2">Email:</td>
+                    <td>Phone:</td>
+                </tr>
+                <tr>
+                    <td><input type="email" 
+                        id="mail"
+                        name="mail" 
+                        maxlength="30" 
+                        placeholder="name@domain.tld.com" 
+                        title="Please enter your email"
+                        onblur="validateemail()"></td> <!--email type text box-->
+                    <td>
+                        <td><input type="text" 
+                        id="phone"
+                        name="phone" 
+                        maxlength="15" 
+                        size="14"
+                        placeholder="(123) 456 7891" 
+                        title="Please enter your phone number"
+                        onblur="formatphone()"></td> <!--Phone number again using textbox not numbers-->
+                    </td>
+                </tr>
+
+                <tr>
+                    <td><span class="error" id="eemail"></span></td>
+                    <td><span class="error" id="ephone"></span></td>
+                </tr>
+
+                <tr>
+                    <td>Preferred method of contact:</td> <!--5 check boxes for preferre method of contact-->
+                    <td><input type="checkbox" id="PCemail" name="contact" value="PCemail">
+                        <label for="PCemail">Email</label></td>
+                    <td><input type="checkbox" id="PCphone" name="contact" value="PCphone">
+                        <label for="PCphone">Phone call</label></td>
+                </tr>
+
+                <tr>
+                    <td><input type="checkbox" id="PCtext" name="contact" value="PCtext">
+                        <label for="PCtext">Text</label></td>
+                    <td><input type="checkbox" id="PCnotification" name="contact" value="PCnotification">
+                        <label for="PCnotification">App notification</label></td>
+                    <td><input type="checkbox" id="PCLetter" name="contact" value="PCLetter">
+                        <label for="PCLetter">Letter</label></td>
+                </tr> 
+
+
+                <tr><td colspan="10"><hr></td></tr>   <!--A horizontal line of separation-->
+
+                <tr>
+                    <th colspan="3"><u>Health History:</u></th> <!--Some patient history header-->
+                </tr>
+                    <td>Have you been Vaccinated before:</td> <!--Vaccinated before yes or no?-->
+                    <td><input type="radio" id="Vaccine_Yes" name="Vaccine_Yes/No" value="Vaccine_Yes">
+                        <label for="Vaccine_Yes">Yes</label></td>
+                    <td><input type="radio" id="Vaccine_No" name="Vaccine_Yes/No" value="Vaccine_No">
+                        <label for="Vaccine_No">No</label></td>
+                <tr>
+                    <td colspan="3">
+                        If yes, then write down what all you vaccines you have gotten:
+                    </td>
+                </tr>
+                <tr> <!--Text box(the big one) for vaccine history-->
+                    <td colspan="3"> <textarea
+                                        maxlength="100"
+                                        id="vaccine_History"
+                                        name="vaccine_History"
+                                        title="Please write your vaccine history"
+                                        placeholder="Please write your vaccine history"
+                                        cols="75"
+                                        rows="5">
+
+                    </textarea></td>
+                </tr>
+
+
+                <tr><td colspan="3">On a scale of 1-10 how active are you day-to-day?</td></tr> <!--Slider to indicate how action the patient is-->
+                        
+                    <tr>
+                        <td colspan="3"><input
+	                        type="range"
+	                        name="range"
+	                        id="range"
+                            min="1"
+                            max="10"
+                            value="0"/><span id="range-slider"></span>
+                        </td>
+                    </tr>
+
+                
+                <tr><td colspan="10"><hr></td></tr>   <!--A horizontal line of separation-->
+
+                <tr>
+                    <th colspan="3"><u>User account set-up</u></th> <!--Account set up header-->
+                </tr>
+
+                <tr>
+                    <td>User id:</td> <!--User id-->
+                    <td ><input type="text" 
+                        id="username"
+                        name="username" 
+                        maxlength="30" 
+                        placeholder="User name" 
+                        title="Pick a username."
+                        required 
+                        onblur="validateUserid()"></td>
+                </tr>
+                <tr><td><span class="error" id="euserid"></span></td></tr>
+
+                <tr>
+                    <td>Password:</td> <!--Password using password text box-->
+                    <td><input type="password" 
+                        id="password"
+                        name="password" 
+                        maxlength="30" 
+                        placeholder="password123#" 
+                        title="Pick a password." 
+                        required
+                        onblur="validatePass()"
+                        oninput="validatePass()"
+                        onfocus="validatePass()"></td>
+                </tr>
+
+                <tr>
+                    <td> Confirm password:</td> <!--Password confirmation-->
+                    <td><input type="password" 
+                        id="Cpassword"
+                        name="Cpassword" 
+                        maxlength="30" 
+                        placeholder="password123#" 
+                        title="Repeat the password." 
+                        required
+                        onblur="validatecpass()"></td>
+                </tr>
+
+                <tr>
+                    <td><span class="error" id="e1pass"></span></td>
+
+                    <td><span class="error" id="ecpass"></span></td>
+                </tr>
+                <tr><td colspan="10"><hr></td></tr>   <!--A horizontal line of separation-->
+
+                <tr><td> <!--Review button opens up a modal that will be a pop up window showing everything the user has entered.-->
+                    <!-- Trigger/Open The Modal -->
+
+                <!--<tr><td colspan="4" style="text-align: center;" class="Validation">-->
+                <button type="button" id="review">Review</button>
+
+                <button type="button" id="validateAll" onclick="validateEntireFile()">VALIDATE</button><!--</tr></tr>-->
+ 
+                    <!-- The Modal -->
+                <div id="myModal" class="modal">
+
+                <!-- Modal content -->
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <!--All the review content will be here.-->
+                    <p>Review the Form:</p><br>
+                    <table id="reviewTable">
+                        <tr><td><span class="review" id="reviewName"></span></td></tr>
+                        <tr><td><span class="review" id="reviewDOB"></span></td></tr>
+                        <tr><td><span class="review" id="reviewSSN"></span></td></tr>
+                        <tr><td><span class="review" id="reviewlocation1"></span></td></tr>
+                        <tr><td><span class="review" id="reviewlocation2"></span></td></tr>
+                        <tr><td><span class="review" id="remail"></span></td></tr>
+                        <tr><td><span class="review" id="rphone"></span></td></tr>
+                        <tr><td><span class="review" id="ruserid"></span></td></tr>
+                        <tr><td><span class="review" id="rpass"></span></td></tr> 
+                    </table>
+                </div>
+                </div>
+
+                </td></tr>
+                <tr> <!--Submit button takes u to the thank you page while reset button turns the page to how it was first loaded up.-->
+                    <!--Both in the same td for the spacing.-->
+                    <td colspan="4" style="text-align: center;" class="submit_button"><input type="submit" name="submit" id="submit" disabled>
+                    <input type="reset" name="reset" id ="reset"></td>
+                </tr>
+            </table>
+        </div>
+        </center>
+        </form>
+
+<script src="../Javascript/SimonClinic.js"></script>
+<!--Javascript link: Javascript"-->
+
+<div id="valAlertBox">
+    <div id="valBody"> 
+        <h4>Please fill out the missing information or fix the incorrect ones.</h4>
+        <button id="CloseValBox">Ok</button>
+    </div> 
+</div>
+    <!--Footer-->
+        <img src="../Images/catPlay.png" style="float:left; width: 100px; height: 100px; position: relative; left: 30px;" id="catPlaying" alt="catPlayingWithBallAnimation">
+        <!--In class an extra credit with ball animation was mentioned so I wanted there to be like a cat playing with a ball toy. This cat is part of that.-->
+
+
+    <!--Footer-->
+    <iframe src="footer.html" title="footer" style="width: 100%; height: 100px;" id="footerFrame" scrolling="no"></iframe> <!--Using an iframe to display the footer.-->
+
+    </body> 
+</html>
